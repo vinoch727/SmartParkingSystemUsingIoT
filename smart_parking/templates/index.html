@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Parking IoT</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .occupied { background-color: #f8d7da; }
+        .vacant { background-color: #d4edda; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mt-4">Smart Parking IoT System</h2>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Slot ID</th>
+                <th>Status</th>
+                <th>Occupied Time</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for slot in slots %}
+            <tr class="{{ 'occupied' if slot.status == 'Occupied' else 'vacant' }}">
+                <td>{{ slot.id }}</td>
+                <td>{{ slot.status }}</td>
+                <td>{{ slot.selected_time }}</td>
+                <td>
+                    {% if slot.status == 'Vacant' %}
+                        <a href="/select/{{ slot.id }}" class="btn btn-success btn-sm">Select</a>
+                    {% else %}
+                        <button class="btn btn-secondary btn-sm" disabled>Unavailable</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/simulate" class="btn btn-primary">Simulate Status Change</a>
+    <a href="/make_all_available" class="btn btn-danger">Make All Available</a>
+</div>
+</body>
+</html>
